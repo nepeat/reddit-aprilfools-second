@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+redis-py
+hiredis
+progressbar2
+websockets
+aioredis
