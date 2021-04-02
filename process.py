@@ -61,6 +61,10 @@ def process_event(event: dict):
         # Add data for the current image to the images array.
         current_images = current_round.get("images", [])
         if current_images[0]["votes"] > 0:
+            if (
+                not rounds[round_id]["image_phase"][current_phase] or
+                current_images[0]["votes"] > rounds[round_id]["image_phase"][current_phase][0]["votes"]
+            ):
             rounds[round_id]["image_phase"][current_phase] = current_images
     
     # Parse only the first instance of a winning round.
@@ -82,7 +86,9 @@ def process_event(event: dict):
             if image["votes"] == winning_votes[1]:
                 winning_images[image["name"]] += 1
 
-for raw_event in progressbar.progressbar(r.lrange("reddit:second:socket", 0, -1)):
+for key in r.keys("reddit:second:socket*"):
+    print(key)
+    for raw_event in progressbar.progressbar(r.lrange(key, 0, -1)):
     event = json.loads(raw_event)
     process_event(event)
 
