@@ -107,7 +107,34 @@ def rounds_csv():
         "img1_name",
         "img2_name",
     ]
-    with open("output/rounds.csv", "w+") as f:
+
+    phaseless_fields = fields.copy()
+    phaseless_fields.remove("phase")
+
+    # Create CSVs per round.
+    for phase in SecondPhase:
+        with open(f"output/round_{phase.name}.csv", "w+") as f:
+            writer = csv.DictWriter(f, fieldnames=phaseless_fields)
+            writer.writeheader()
+
+            for round_id, meta in rounds.items():
+                images = meta["image_phase"][phase]
+                if not images:
+                    continue
+                writer.writerow({
+                    "round_id": round_id,
+                    "votes": meta["total_votes"],
+                    "img0_votes": images[0]["votes"],
+                    "img1_votes": images[1]["votes"],
+                    "img2_votes": images[2]["votes"],
+                    "img0_name": images[0]["name"],
+                    "img1_name": images[1]["name"],
+                    "img2_name": images[2]["name"],
+                })
+
+
+    # Create CSVs for all rounds..
+    with open("output/all_rounds.csv", "w+") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
 
