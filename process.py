@@ -150,7 +150,7 @@ class ProcessClient(WorkerBase):
                         continue
                     writer.writerow({
                         "round_id": round_id,
-                        "votes": meta["total_votes"],
+                        "votes": sum(image["votes"] for image in images),
                         "img0_votes": images[0]["votes"],
                         "img1_votes": images[1]["votes"],
                         "img2_votes": images[2]["votes"],
@@ -172,7 +172,7 @@ class ProcessClient(WorkerBase):
                     writer.writerow({
                         "round_id": round_id,
                         "phase": phase_name.name,
-                        "votes": meta["total_votes"],
+                        "votes": sum(image["votes"] for image in images),
                         "img0_votes": images[0]["votes"],
                         "img1_votes": images[1]["votes"],
                         "img2_votes": images[2]["votes"],
