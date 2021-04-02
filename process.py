@@ -78,9 +78,9 @@ def process_event(event: dict):
         rounds[round_id]["image_phase"][SecondPhase.RESULTS] = previous_round["images"]
 
         # Add winning images.
-        winning_votes = sorted(x["votes"] for x in previous_round["images"])
+        winning_votes = sorted([x["votes"] for x in previous_round["images"]], reverse=True)
         if winning_votes[0] == winning_votes[1]:
-            print("bollocks")
+            print("bollocks", round_id)
 
         for image in previous_round["images"]:
             if image["votes"] == winning_votes[1]:
