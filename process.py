@@ -83,11 +83,15 @@ class ProcessClient(WorkerBase):
 
             # Add winning images.
             winning_votes = sorted([x["votes"] for x in previous_round["images"]], reverse=True)
-            if winning_votes[0] == winning_votes[1]:
-                print("dupe vote", round_id)
+            tied_vote = winning_votes[0] == winning_votes[1]
+            if tied_vote:
+                print("tied vote", round_id)
 
             for image in previous_round["images"]:
-                if image["votes"] == winning_votes[1]:
+                if (
+                    tied_vote and (image["votes"] == winning_votes[-1])
+                    or image["votes"] == winning_votes[1]
+                ):
                     self.winning_images[image["name"]] += 1
 
     async def start(self):
