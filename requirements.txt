@@ -6,3 +6,4 @@ progressbar2
 websockets
 aioredis
 zstd
+sanic
